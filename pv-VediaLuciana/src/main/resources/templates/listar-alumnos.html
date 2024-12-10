@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Alumnos Activos</title>
+</head>
+<body>
+    <h1>Alumnos Activos</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Curso</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="alumno : ${alumnos}">
+                <td th:text="${alumno.dni}"></td>
+                <td th:text="${alumno.nombre}"></td>
+                <td th:text="${alumno.apellido}"></td>
+                <td th:text="${alumno.curso}"></td>
+                <td th:text="${alumno.fechaNacimiento}"></td>
+                <td th:text="${alumno.calcularEdad()}"></td>
+                <td>
+                    <a th:href="@{'/alumnos/editar/' + ${alumno.idAlumno}}">Editar</a>
+                    <a th:href="@{'/alumnos/eliminar/' + ${alumno.idAlumno}}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/alumnos/nuevo">Cargar Nuevo Alumno</a>
+</body>
+</html>

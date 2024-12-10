@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Alumno</title>
+</head>
+<body>
+    <h1 th:text="${#strings.isEmpty(alumno.idAlumno) ? 'Cargar Alumno' : 'Editar Alumno'}"></h1>
+    <form th:action="@{/alumnos/guardar}" th:object="${alumno}" method="post">
+        <label>DNI:</label>
+        <input type="text" th:field="*{dni}" required/><br/>
+        <label>Nombre:</label>
+        <input type="text" th:field="*{nombre}" required/><br/>
+        <label>Apellido:</label>
+        <input type="text" th:field="*{apellido}" required/><br/>
+        <label>Curso:</label>
+        <select th:field="*{curso}" required>
+            <option th:each="curso : ${T(com.tu_nombre.examenalumno.entity.Curso).values()}" th:value="${curso}" th:text="${curso}"></option>
+        </select><br/>
+        <label>Fecha de Nacimiento:</label>
+        <input type="date" th:field="*{fechaNacimiento}" required/><br/>
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>
