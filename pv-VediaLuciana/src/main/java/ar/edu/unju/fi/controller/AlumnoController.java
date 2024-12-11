@@ -7,9 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ar.edu.unju.fi.Alumno;
+import ar.edu.unju.fi.model.Alumno;
 import ar.edu.unju.fi.service.AlumnoService;
 import org.springframework.ui.Model;
 
@@ -19,45 +20,52 @@ public class AlumnoController {
 
 	@Autowired
 	private AlumnoService alumnoService;
-	
-	//listar alumnos activos
+
+	@GetMapping("/")
+	public String getIndex() {
+		return "index";
+	}
+
+	// listar alumnos activos
 	@GetMapping("/activos")
 	public String listarActivos(Model model) {
 		List<Alumno> alumnos = alumnoService.obtenerActivos();
 		model.addAttribute("alumnos", alumnos);
 		return "listar-alumnos";
 	}
-	
-	//mostrar formulario de carga
+
+	// mostrar formulario de carga
 	@GetMapping("/nuevo")
 	public String mostrarFormulario(Model model) {
 		model.addAttribute("alumno", new Alumno());
+		model.addAttribute("cursos", alumnoService.obtenerCursos());
 		return "formulario-alumno";
 	}
-	
-	//guardar nuevo alumno
-	@GetMapping("/guardar")
+
+	// guardar nuevo alumno
+	@PostMapping("/guardar")
 	public String guardarAlumno(@ModelAttribute Alumno alumno) {
-		alumno.setEstado(true); //todos los nuevos estaran activos
+		alumno.setEstado(true); // todos los nuevos estaran activos
 		alumnoService.guardar(alumno);
-		return "redirect:/alumnos/activos";
+		return "redirect:/Alumnos/activos";
 	}
-	
-	//editar alumno
+
+	// editar alumno
 	@GetMapping("/editar/{id}")
 	public String editarAlumno(@PathVariable Integer id, Model model) {
 		Alumno alumno = alumnoService.buscarPorId(id);
-		if (alumno!= null) {
+		if (alumno != null) {
 			model.addAttribute("alumno", alumno);
+			model.addAttribute("cursos", alumnoService.obtenerCursos());
 			return "formulario-alumno";
 		}
-		return "redirect:/alumnos/activos";
+		return "redirect:/Alumnos/activos";
 	}
-	
-	//eliminar alumno
+
+	// eliminar alumno
 	@GetMapping("/eliminar/{id}")
 	public String eliminarAlumno(@PathVariable Integer id) {
 		alumnoService.eliminarLogico(id);
-		return "redirect:/alumnos/activos";
+		return "redirect:/Alumnos/activos";
 	}
 }
