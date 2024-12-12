@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Lista de Alumnos Activos</title>
+    <!-- Agregar enlace a Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container my-5">
+    <h1 class="text-center mb-4">Alumnos Activos</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Curso</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Edad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="alumno : ${alumnos}">
+                    <td th:text="${alumno.dni}"></td>
+                    <td th:text="${alumno.nombre}"></td>
+                    <td th:text="${alumno.apellido}"></td>
+                    <td th:text="${alumno.curso}"></td>
+                    <td th:text="${alumno.fechaNacimiento}"></td>
+                    <td th:text="${alumno.calcularEdad()}"></td>
+                    <td>
+                        <div class="d-flex justify-content-evenly">
+                            <a th:href="@{'/Alumnos/editar/' + ${alumno.idAlumno}}" class="btn btn-sm btn-primary">
+                                Editar
+                            </a>
+                            <a th:href="@{'/Alumnos/eliminar/' + ${alumno.idAlumno}}" class="btn btn-sm btn-danger">
+                                Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/Alumnos/nuevo" class="btn btn-success">Cargar Nuevo Alumno</a>
+    </div>
+
+    <!-- Agregar enlace a JavaScript de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
